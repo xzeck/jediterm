@@ -534,4 +534,13 @@ public class TerminalTextBuffer {
   @Nullable TextProcessing getTextProcessing() {
     return myTextProcessing;
   }
+  
+  public void clear(int beginY, int endY) {
+    this.lock();
+    try {
+      this.clearLines(beginY, endY);
+    } finally {
+      this.unlock();
+    }
+  }
 }
