@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author traff
  */
-public interface Terminal {
+public interface Terminal extends TerminalCursor {
   void resize(@NotNull TermSize newTermSize, @NotNull RequestOrigin origin);
 
   void beep();
@@ -54,9 +54,6 @@ public interface Terminal {
 
   void fillScreen(char c);
 
-  void saveCursor();
-
-  void restoreCursor();
 
   void reset(boolean clearScrollBackBuffer);
 
@@ -69,22 +66,6 @@ public interface Terminal {
   void scrollDown(int count);
 
   void resetScrollRegions();
-
-  void cursorHorizontalAbsolute(int x);
-
-  void linePositionAbsolute(int y);
-
-  void cursorPosition(int x, int y);
-
-  void cursorUp(int countY);
-
-  void cursorDown(int dY);
-
-  void cursorForward(int dX);
-
-  void cursorBackward(int dX);
-
-  void cursorShape(@NotNull CursorShape shape);
 
   void eraseInLine(int arg);
 
@@ -102,11 +83,6 @@ public interface Terminal {
 
   void disconnected();
 
-  int getCursorX();
-
-  int getCursorY();
-
-  @NotNull CellPosition getCursorPosition();
 
   void singleShiftSelect(int num);
 
@@ -117,8 +93,6 @@ public interface Terminal {
   void restoreWindowTitleFromStack();
 
   void clearScreen();
-
-  void setCursorVisible(boolean visible);
 
   void useAlternateBuffer(boolean enabled);
 
@@ -136,17 +110,14 @@ public interface Terminal {
 
   void deleteLines(int count);
 
-  void setBlinkingCursor(boolean enabled);
 
   void eraseCharacters(int count);
 
   void insertBlankCharacters(int count);
 
-  void clearTabStopAtCursor();
 
   void clearAllTabStops();
 
-  void setTabStopAtCursor();
 
   void writeUnwrappedString(String string);
 
@@ -172,17 +143,24 @@ public interface Terminal {
 
   @Nullable Color getWindowBackground();
 
-  default void addApplicationTitleListener(@NotNull TerminalApplicationTitleListener listener) {}
+  default void addApplicationTitleListener(@NotNull TerminalApplicationTitleListener listener) {
+  }
 
-  default void removeApplicationTitleListener(@NotNull TerminalApplicationTitleListener listener) {}
+  default void removeApplicationTitleListener(@NotNull TerminalApplicationTitleListener listener) {
+  }
 
-  default void addResizeListener(@NotNull TerminalResizeListener listener) {}
+  default void addResizeListener(@NotNull TerminalResizeListener listener) {
+  }
 
-  default void removeResizeListener(@NotNull TerminalResizeListener listener) {}
+  default void removeResizeListener(@NotNull TerminalResizeListener listener) {
+  }
 
-  default void addCustomCommandListener(@NotNull TerminalCustomCommandListener listener) {}
+  default void addCustomCommandListener(@NotNull TerminalCustomCommandListener listener) {
+  }
 
-  default void removeCustomCommandListener(@NotNull TerminalCustomCommandListener listener) {}
+  default void removeCustomCommandListener(@NotNull TerminalCustomCommandListener listener) {
+  }
 
-  default void processCustomCommand(@NotNull List<String> args) {}
+  default void processCustomCommand(@NotNull List<String> args) {
+  }
 }
