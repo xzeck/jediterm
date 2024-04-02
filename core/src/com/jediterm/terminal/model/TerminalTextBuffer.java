@@ -135,7 +135,8 @@ public class TerminalTextBuffer {
       else {
         newCursorY = oldCursorY;
       }
-    } else if (newHeight > oldHeight) {
+    }
+    else if (newHeight > oldHeight) {
       if (USE_CONPTY_COMPATIBLE_RESIZE) {
         // do not move lines from scroll buffer to the screen buffer
         newCursorY = oldCursorY;
@@ -149,7 +150,8 @@ public class TerminalTextBuffer {
           if (selection != null) {
             selection.shiftY(historyLinesCount);
           }
-        } else {
+        }
+        else {
           newCursorY = oldCursorY;
         }
       }
@@ -209,10 +211,12 @@ public class TerminalTextBuffer {
   public void deleteCharacters(final int x, final int y, final int count) {
     if (y > myHeight - 1 || y < 0) {
       LOG.error("attempt to delete in line " + y + "\n" +
-              "args were x:" + x + " count:" + count);
-    } else if (count < 0) {
+        "args were x:" + x + " count:" + count);
+    }
+    else if (count < 0) {
       LOG.error("Attempt to delete negative chars number: count:" + count);
-    } else if (count > 0) {
+    }
+    else if (count > 0) {
       myScreenBuffer.deleteCharacters(x, y, count, createEmptyStyleWithCurrentColor());
 
       fireModelChangeEvent();
@@ -222,10 +226,12 @@ public class TerminalTextBuffer {
   public void insertBlankCharacters(final int x, final int y, final int count) {
     if (y > myHeight - 1 || y < 0) {
       LOG.error("attempt to insert blank chars in line " + y + "\n" +
-              "args were x:" + x + " count:" + count);
-    } else if (count < 0) {
+        "args were x:" + x + " count:" + count);
+    }
+    else if (count < 0) {
       LOG.error("Attempt to insert negative blank chars number: count:" + count);
-    } else if (count > 0) { //nothing to do
+    }
+    else if (count > 0) { //nothing to do
       myScreenBuffer.insertBlankCharacters(x, y, count, myWidth, createEmptyStyleWithCurrentColor());
 
       fireModelChangeEvent();
@@ -254,7 +260,8 @@ public class TerminalTextBuffer {
     }
     if (dy > 0) {
       insertLines(scrollRegionTop - 1, dy, scrollRegionBottom);
-    } else {
+    }
+    else {
       LinesBuffer removed = deleteLines(scrollRegionTop - 1, -dy, scrollRegionBottom);
       if (scrollRegionTop == 1) {
         removed.moveTopLinesTo(removed.getLineCount(), myHistoryBuffer);
@@ -277,7 +284,8 @@ public class TerminalTextBuffer {
         return TerminalLine.createEmpty();
       }
       return myScreenBuffer.getLine(index);
-    } else {
+    }
+    else {
       if (index < -getHistoryLinesCount()) {
         LOG.error("Attempt to get line out of bounds: " + index + " < " + -getHistoryLinesCount());
         return TerminalLine.createEmpty();
@@ -304,7 +312,8 @@ public class TerminalTextBuffer {
         sb.append('\n');
       }
       return sb.toString();
-    } finally {
+    }
+    finally {
       myLock.unlock();
     }
   }
@@ -382,7 +391,8 @@ public class TerminalTextBuffer {
         myHistoryBuffer = createHistoryBuffer();
         myUsingAlternateBuffer = true;
       }
-    } else {
+    }
+    else {
       if (myUsingAlternateBuffer) {
         myScreenBuffer = myScreenBufferBackup;
         myHistoryBuffer = myHistoryBufferBackup;
@@ -428,7 +438,8 @@ public class TerminalTextBuffer {
       if (myTextProcessing != null && y < getHeight()) {
         myTextProcessing.processHyperlinks(myScreenBuffer, getLine(y));
       }
-    } else {
+    }
+    else {
       LOG.error("Attempt to erase characters in line: " + y);
     }
   }
@@ -457,9 +468,9 @@ public class TerminalTextBuffer {
    * @param scrollOrigin row where a scrolling window starts, should be in the range [-history_lines_count, 0]
    */
   public void processHistoryAndScreenLines(int scrollOrigin, int maximalLinesToProcess, StyledTextConsumer consumer) {
-    if (maximalLinesToProcess<0) {
+    if (maximalLinesToProcess < 0) {
       //Process all lines in this case
-      
+
       maximalLinesToProcess = myHistoryBuffer.getLineCount() + myScreenBuffer.getLineCount();
     }
 
@@ -534,12 +545,13 @@ public class TerminalTextBuffer {
   @Nullable TextProcessing getTextProcessing() {
     return myTextProcessing;
   }
-  
+
   public void clear(int beginY, int endY) {
     this.lock();
     try {
       this.clearLines(beginY, endY);
-    } finally {
+    }
+    finally {
       this.unlock();
     }
   }
